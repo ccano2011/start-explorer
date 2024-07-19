@@ -1,7 +1,13 @@
 @echo off
 
 :: Stop Steam
-taskkill /f /im steam.exe > nul
+"C:\Program Files (x86)\Steam\steam.exe" -shutdown
+
+:: Wait for Steam to terminate
+:WAIT_FOR_STEAM
+timeout /t 2 /nobreak > nul
+tasklist /FI "IMAGENAME eq steam.exe" 2>NUL | find /I /N "steam.exe" >NUL
+if "%ERRORLEVEL%"=="0" goto WAIT_FOR_STEAM
 
 :: Start Explorer
 start "" "C:\Windows\explorer.exe"
